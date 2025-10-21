@@ -227,6 +227,123 @@
       background: #5568d3;
     }
 
+    /* 로그인 스타일 */
+    .login-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container.active {
+      display: flex;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .login-box h2 {
+      color: #667eea;
+      text-align: center;
+      margin-bottom: 30px;
+      border: none;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      color: #666;
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+
+    .form-group input {
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .login-btn {
+      padding: 14px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    .login-btn:hover {
+      background: #5568d3;
+    }
+
+    .error-message {
+      color: #c33;
+      font-size: 0.9em;
+      text-align: center;
+      display: none;
+      background: #fee;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #c33;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .logout-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 2px solid white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      z-index: 100;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+
     @media (max-width: 768px) {
       h1 {
         font-size: 1.8em;
@@ -251,6 +368,17 @@
         text-align: center;
       }
 
+      .login-box {
+        padding: 30px 20px;
+      }
+
+      .logout-btn {
+        top: 10px;
+        right: 10px;
+        padding: 8px 16px;
+        font-size: 0.9em;
+      }
+
       table {
         font-size: 0.85em;
       }
@@ -262,6 +390,28 @@
   </style>
 </head>
 <body>
+  <!-- 로그인 화면 -->
+  <div class="login-container active" id="loginContainer">
+    <div class="login-box">
+      <h2>🔐 Analytics Login</h2>
+      <form class="login-form" id="loginForm">
+        <div class="error-message" id="errorMessage">아이디 또는 비밀번호가 올바르지 않습니다.</div>
+        <div class="form-group">
+          <label for="username">아이디</label>
+          <input type="text" id="username" name="username" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password">비밀번호</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="login-btn">로그인</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 로그아웃 버튼 -->
+  <button class="logout-btn" id="logoutBtn" style="display: none;">로그아웃</button>
+
   <div class="container">
     <h1>📊 Analytics Dashboard</h1>
 
@@ -407,6 +557,66 @@
   <script>
     const API_URL = 'https://analytics-api.granadu0417.workers.dev';
 
+    // 로그인 인증 정보
+    const ADMIN_USERNAME = 'granadu';
+    const ADMIN_PASSWORD = '1205';
+
+    // 로그인 확인
+    function checkAuth() {
+      const isLoggedIn = sessionStorage.getItem('analyticsAuth') === 'true';
+      const loginContainer = document.getElementById('loginContainer');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      if (isLoggedIn) {
+        loginContainer.classList.remove('active');
+        logoutBtn.style.display = 'block';
+        initDashboard();
+      } else {
+        loginContainer.classList.add('active');
+        logoutBtn.style.display = 'none';
+      }
+    }
+
+    // 로그인 처리
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        sessionStorage.setItem('analyticsAuth', 'true');
+        errorMessage.classList.remove('show');
+        checkAuth();
+      } else {
+        errorMessage.classList.add('show');
+        document.getElementById('password').value = '';
+      }
+    });
+
+    // 로그아웃 처리
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      sessionStorage.removeItem('analyticsAuth');
+      location.reload();
+    });
+
+    // 대시보드 초기화
+    function initDashboard() {
+      loadStats();
+      loadTotalVisits();
+      loadSites();
+      loadVisits();
+
+      // 30초마다 자동 새로고침
+      setInterval(() => {
+        loadStats();
+        loadTotalVisits();
+        loadSites();
+        loadVisits();
+      }, 30000);
+    }
+
     // 통계 로드
     async function loadStats() {
       try {
@@ -548,19 +758,8 @@
       setTimeout(() => errorDiv.remove(), 5000);
     }
 
-    // 초기 로드
-    loadStats();
-    loadTotalVisits();
-    loadSites();
-    loadVisits();
-
-    // 30초마다 자동 새로고침
-    setInterval(() => {
-      loadStats();
-      loadTotalVisits();
-      loadSites();
-      loadVisits();
-    }, 30000);
+    // 페이지 로드 시 인증 확인
+    checkAuth();
   </script>
 </body>
 </html>
