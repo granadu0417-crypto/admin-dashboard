@@ -344,6 +344,190 @@
       transform: translateY(-2px);
     }
 
+    /* 차트 스타일 */
+    .chart-container {
+      margin-top: 20px;
+    }
+
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bar-label {
+      min-width: 120px;
+      font-size: 0.9em;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 30px;
+      background: #f0f0f0;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      border-radius: 15px;
+      transition: width 0.8s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      color: white;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .bar-value {
+      min-width: 60px;
+      text-align: right;
+      font-weight: 600;
+      color: #667eea;
+      font-size: 0.9em;
+    }
+
+    /* 순위 리스트 */
+    .ranking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .ranking-item {
+      background: #f8f9ff;
+      padding: 15px 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: transform 0.3s;
+    }
+
+    .ranking-item:hover {
+      transform: translateX(5px);
+    }
+
+    .rank-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .rank-info {
+      flex: 1;
+    }
+
+    .rank-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .rank-stats {
+      display: flex;
+      gap: 20px;
+      font-size: 0.85em;
+      color: #666;
+    }
+
+    .rank-stat {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stat-icon {
+      color: #667eea;
+    }
+
+    /* 시간대별 차트 */
+    .hourly-chart {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      gap: 4px;
+      align-items: flex-end;
+      height: 200px;
+      padding: 20px 0;
+    }
+
+    .hour-bar {
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      min-height: 4px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .hour-bar:hover {
+      opacity: 0.8;
+    }
+
+    .hour-bar::after {
+      content: attr(data-hour);
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7em;
+      color: #999;
+      white-space: nowrap;
+    }
+
+    .hour-label {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      font-size: 0.85em;
+      color: #666;
+    }
+
+    /* 통계 배지 */
+    .stat-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .badge-success {
+      background: #e8f5e9;
+      color: #388e3c;
+    }
+
+    .badge-warning {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .badge-danger {
+      background: #ffebee;
+      color: #d32f2f;
+    }
+
     @media (max-width: 768px) {
       h1 {
         font-size: 1.8em;
@@ -377,6 +561,25 @@
         right: 10px;
         padding: 8px 16px;
         font-size: 0.9em;
+      }
+
+      .bar-label {
+        min-width: 80px;
+        font-size: 0.8em;
+      }
+
+      .bar-value {
+        min-width: 50px;
+        font-size: 0.8em;
+      }
+
+      .rank-stats {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .hourly-chart {
+        height: 150px;
       }
 
       table {
@@ -508,6 +711,41 @@
     </div>
 
     <div class="content-section">
+      <h2>🎯 유입 경로 분석</h2>
+      <p style="color: #666; margin-bottom: 10px;">방문자가 어디서 오는지 확인하세요 (최근 7일)</p>
+      <div class="chart-container">
+        <div class="bar-chart" id="referrer-chart">
+          <div class="loading">로딩 중...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>🏆 인기 페이지 Top 5</h2>
+      <p style="color: #666; margin-bottom: 10px;">가장 많은 방문과 긴 체류시간을 가진 사이트</p>
+      <div class="ranking-list" id="popular-list">
+        <div class="loading">로딩 중...</div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>⏰ 시간대별 방문 패턴</h2>
+      <p style="color: #666; margin-bottom: 10px;">24시간 중 어느 시간대에 방문자가 많은지 확인 (최근 7일)</p>
+      <div class="chart-container">
+        <div class="hourly-chart" id="hourly-chart">
+          <div class="loading">로딩 중...</div>
+        </div>
+        <div class="hour-label">
+          <span>00:00</span>
+          <span>06:00</span>
+          <span>12:00</span>
+          <span>18:00</span>
+          <span>23:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
       <h2>🌐 사이트별 통계</h2>
       <table id="sites-table">
         <thead>
@@ -605,6 +843,9 @@
     function initDashboard() {
       loadStats();
       loadTotalVisits();
+      loadReferrers();
+      loadPopular();
+      loadHourly();
       loadSites();
       loadVisits();
 
@@ -612,6 +853,9 @@
       setInterval(() => {
         loadStats();
         loadTotalVisits();
+        loadReferrers();
+        loadPopular();
+        loadHourly();
         loadSites();
         loadVisits();
       }, 30000);
@@ -747,6 +991,128 @@
     function getDeviceLabel(type) {
       const labels = { mobile: '모바일', tablet: '태블릿', pc: 'PC' };
       return labels[type] || type;
+    }
+
+    // 유입 경로 로드
+    async function loadReferrers() {
+      try {
+        const response = await fetch(`${API_URL}/api/referrers?range=7d`);
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          const container = document.getElementById('referrer-chart');
+
+          if (data.data.length === 0) {
+            container.innerHTML = '<div class="loading">아직 수집된 데이터가 없습니다.</div>';
+            return;
+          }
+
+          const maxCount = Math.max(...data.data.map(r => r.visit_count));
+
+          container.innerHTML = data.data.map(ref => `
+            <div class="bar-item">
+              <div class="bar-label">${ref.source}</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: ${(ref.visit_count / maxCount * 100)}%">
+                  ${ref.percentage}%
+                </div>
+              </div>
+              <div class="bar-value">${ref.visit_count}명</div>
+            </div>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('유입 경로 로드 실패:', error);
+      }
+    }
+
+    // 인기 페이지 로드
+    async function loadPopular() {
+      try {
+        const response = await fetch(`${API_URL}/api/popular`);
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          const container = document.getElementById('popular-list');
+
+          if (data.data.length === 0) {
+            container.innerHTML = '<div class="loading">아직 수집된 데이터가 없습니다.</div>';
+            return;
+          }
+
+          container.innerHTML = data.data.slice(0, 5).map((site, index) => {
+            const avgDuration = formatDuration(site.avg_duration);
+            const bounceClass = site.bounce_rate > 30 ? 'badge-danger' : (site.bounce_rate > 15 ? 'badge-warning' : 'badge-success');
+
+            return `
+              <div class="ranking-item">
+                <div class="rank-number">${index + 1}</div>
+                <div class="rank-info">
+                  <div class="rank-name">${getSiteName(site.site_hostname)}</div>
+                  <div class="rank-stats">
+                    <div class="rank-stat">
+                      <span class="stat-icon">👥</span>
+                      <span>${site.visit_count}회 방문</span>
+                    </div>
+                    <div class="rank-stat">
+                      <span class="stat-icon">⏱️</span>
+                      <span>평균 ${avgDuration}</span>
+                    </div>
+                    <div class="rank-stat">
+                      <span class="stat-icon">🚪</span>
+                      <span>이탈률 <span class="stat-badge ${bounceClass}">${site.bounce_rate}%</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (error) {
+        console.error('인기 페이지 로드 실패:', error);
+      }
+    }
+
+    // 시간대별 패턴 로드
+    async function loadHourly() {
+      try {
+        const response = await fetch(`${API_URL}/api/hourly`);
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          const container = document.getElementById('hourly-chart');
+          const maxCount = Math.max(...data.data.map(h => h.visit_count), 1);
+
+          container.innerHTML = data.data.map(hour => {
+            const height = (hour.visit_count / maxCount * 100) || 2;
+            return `
+              <div class="hour-bar"
+                   style="height: ${height}%"
+                   data-hour="${hour.hour}시"
+                   title="${hour.hour}시: ${hour.visit_count}명">
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (error) {
+        console.error('시간대별 패턴 로드 실패:', error);
+      }
+    }
+
+    // 사이트 이름 변환
+    function getSiteName(hostname) {
+      const names = {
+        'unemployment-benefit-calculator.pages.dev': '실업급여 계산기',
+        'salary-calculator-bce.pages.dev': '연봉 계산기',
+        'retirement-calculator-4s7.pages.dev': '퇴직금 계산기',
+        'real-estate-tax-calculator.pages.dev': '재산세 계산기',
+        'minimum-wage-calculator.pages.dev': '최저시급 계산기',
+        'loan-calculator-36y.pages.dev': '대출이자 계산기',
+        'income-tax-calculator-bw1.pages.dev': '소득세 계산기',
+        'health-insurance-calculator.pages.dev': '건강보험료 계산기',
+        'car-tax-calculator.pages.dev': '자동차세 계산기'
+      };
+      return names[hostname] || hostname;
     }
 
     function showError(message) {
