@@ -171,6 +171,62 @@
       margin-top: 20px;
     }
 
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .domain-card {
+      background: #f8f9ff;
+      padding: 15px 20px;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .domain-card:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    .domain-info {
+      flex: 1;
+    }
+
+    .domain-name {
+      font-weight: 600;
+      color: #333;
+      font-size: 0.95em;
+      margin-bottom: 5px;
+    }
+
+    .domain-url {
+      color: #667eea;
+      font-size: 0.85em;
+      text-decoration: none;
+    }
+
+    .visit-btn {
+      padding: 8px 16px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .visit-btn:hover {
+      background: #5568d3;
+    }
+
     @media (max-width: 768px) {
       h1 {
         font-size: 1.8em;
@@ -178,6 +234,21 @@
 
       .stat-card .value {
         font-size: 2em;
+      }
+
+      .domain-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .domain-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .visit-btn {
+        width: 100%;
+        text-align: center;
       }
 
       table {
@@ -214,6 +285,75 @@
         <h3>평균 체류시간</h3>
         <div class="value" id="avg-duration">-</div>
         <div class="label">Average Duration</div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>🚀 운영 중인 도메인 목록</h2>
+      <div class="domain-grid">
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">실업급여 계산기</div>
+            <div class="domain-url">unemployment-benefit-calculator.pages.dev</div>
+          </div>
+          <a href="https://unemployment-benefit-calculator.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">연봉 계산기</div>
+            <div class="domain-url">salary-calculator-bce.pages.dev</div>
+          </div>
+          <a href="https://salary-calculator-bce.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">퇴직금 계산기</div>
+            <div class="domain-url">retirement-calculator-4s7.pages.dev</div>
+          </div>
+          <a href="https://retirement-calculator-4s7.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">재산세 계산기</div>
+            <div class="domain-url">real-estate-tax-calculator.pages.dev</div>
+          </div>
+          <a href="https://real-estate-tax-calculator.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">최저시급 계산기</div>
+            <div class="domain-url">minimum-wage-calculator.pages.dev</div>
+          </div>
+          <a href="https://minimum-wage-calculator.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">대출이자 계산기</div>
+            <div class="domain-url">loan-calculator-36y.pages.dev</div>
+          </div>
+          <a href="https://loan-calculator-36y.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">소득세 계산기</div>
+            <div class="domain-url">income-tax-calculator-bw1.pages.dev</div>
+          </div>
+          <a href="https://income-tax-calculator-bw1.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">건강보험료 계산기</div>
+            <div class="domain-url">health-insurance-calculator.pages.dev</div>
+          </div>
+          <a href="https://health-insurance-calculator.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
+        <div class="domain-card">
+          <div class="domain-info">
+            <div class="domain-name">자동차세 계산기</div>
+            <div class="domain-url">car-tax-calculator.pages.dev</div>
+          </div>
+          <a href="https://car-tax-calculator.pages.dev" target="_blank" class="visit-btn">방문</a>
+        </div>
       </div>
     </div>
 
